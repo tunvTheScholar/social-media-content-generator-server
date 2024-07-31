@@ -1,3 +1,4 @@
+import db from "./firebase.service";
 import { modelGemini15Flash } from "./gemini.service";
 
 interface IGeneratePostCaptionsRequest {
@@ -17,4 +18,27 @@ export const generatePostCaptionsService = async ({
   const text = response.text();
 
   return text;
+};
+
+interface ISaveCaptionsRequest {
+  phoneNumber: string;
+  title: string;
+  caption: string;
+  topic: string;
+}
+
+export const saveCaptionsService = async ({
+  caption,
+  phoneNumber,
+  title,
+  topic,
+}: ISaveCaptionsRequest) => {
+  const userRef = db.collection("users").doc(phoneNumber);
+  const captionsRef = userRef.collection("captions");
+  await captionsRef.add({
+    topic,
+    title,
+    caption,
+    createdAt: Date.now(),
+  });
 };
