@@ -7,6 +7,8 @@ export const createNewAccessCodeHandler = async (
   res: Response
 ) => {
   const bodyData = req.body;
+
+  console.log("🚀 ~ bodyData:", bodyData);
   try {
     const accessCode = await createNewAccessCodeService({
       phoneNumber: bodyData.phoneNumber,

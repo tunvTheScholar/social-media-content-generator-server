@@ -18,7 +18,7 @@ const sendSMS = async (phoneNumber: string, accessCode: string) => {
   await twilioClient.messages.create({
     body: `Your access code is: ${accessCode}`,
     from: ENVS.TWILIO_PHONE_NUMBER,
-    to: `+84${phoneNumber}`,
+    to: `${phoneNumber}`,
   });
 };
 
