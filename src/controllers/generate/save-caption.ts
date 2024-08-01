@@ -18,14 +18,16 @@ export const saveCaptionHandle = async (req: Request, res: Response) => {
       return;
     }
 
-    await saveCaptionsService({
+    const captionId = await saveCaptionsService({
       caption,
       phoneNumber,
       title,
       topic,
     });
-    const resMsg: IResponse<null> = {
-      data: null,
+    const resMsg: IResponse<{ captionId: string }> = {
+      data: {
+        captionId,
+      },
       isSuccess: true,
     };
 

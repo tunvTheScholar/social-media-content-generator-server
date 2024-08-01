@@ -35,10 +35,11 @@ export const saveCaptionsService = async ({
 }: ISaveCaptionsRequest) => {
   const userRef = db.collection("users").doc(phoneNumber);
   const captionsRef = userRef.collection("captions");
-  await captionsRef.add({
+  const res = await captionsRef.add({
     topic,
     title,
     caption,
     createdAt: Date.now(),
   });
+  return res.id;
 };
