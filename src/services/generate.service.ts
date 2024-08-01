@@ -61,3 +61,22 @@ export const unsaveGeneratedCaption = async ({
   }
   await captionRef.delete();
 };
+
+interface IGetPostIdeasRequest {
+  topic: string;
+  seperator?: string;
+  numOfIdeas?: number;
+}
+
+export const getPostIdeasService = async ({
+  topic,
+  seperator = "|",
+  numOfIdeas = 10,
+}: IGetPostIdeasRequest) => {
+  const prompt = `Generate ${numOfIdeas} engaging post ideas for social media about ${topic}. Each idea should be concise and on a new line. Separator: ${seperator}`;
+  const result = await modelGemini15Flash.generateContent(prompt);
+  const response = result.response;
+  const text = response.text();
+
+  return text;
+};
