@@ -80,3 +80,27 @@ export const getPostIdeasService = async ({
 
   return text;
 };
+
+interface ICreateCaptionFromIdeaRequest {
+  idea: string;
+  topic: string;
+  limit?: number;
+  separator?: string;
+}
+
+export const createCaptionFromIdeaService = async ({
+  idea,
+  topic,
+  limit = 10,
+  separator = "|",
+}: ICreateCaptionFromIdeaRequest) => {
+  const prompt = `Generate ${limit} engaging social media captions for the following post idea about ${topic}:
+  "${idea}"
+  Each caption should be concise, creative, and include relevant hashtags, separated by ${separator}.`;
+
+  const result = await modelGemini15Flash.generateContent(prompt);
+  const response = result.response;
+  const text = response.text();
+
+  return text;
+};
