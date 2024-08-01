@@ -103,3 +103,33 @@ export const createCaptionFromIdeaService = async ({
 
   return text;
 };
+
+interface IGetUserGeneratedContentsRequest {
+  phoneNumber: string;
+  // TODO implement pagination
+}
+
+export interface GeneratedContent {
+  id: string;
+  topic: string;
+  title: string;
+  caption: string;
+  createdAt: number;
+}
+
+export const getUserGeneratedContentsService = async ({
+  phoneNumber,
+}: IGetUserGeneratedContentsRequest) => {
+  const userRef = db.collection("users").doc(phoneNumber);
+  const captionsRef = userRef.collection("captions");
+  const snapshot = await captionsRef.orderBy("createdAt", "desc").get();
+
+  return snapshot.docs.map(
+    (doc) =>
+      ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: doc.data().createdAt,
+      } as GeneratedContent)
+  );
+};
