@@ -26,7 +26,7 @@ export const createCaptionFromIdeaHandle = async (
     });
 
     return res.status(200).json({
-      data: captions,
+      data: captions.trim().split("|"),
       isSuccess: true,
     });
   } catch (error) {
