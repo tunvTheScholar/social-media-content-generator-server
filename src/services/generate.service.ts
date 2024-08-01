@@ -43,3 +43,21 @@ export const saveCaptionsService = async ({
   });
   return res.id;
 };
+
+interface IUnsavedCaption {
+  phoneNumber: string;
+  captionId: string;
+}
+
+export const unsaveGeneratedCaption = async ({
+  phoneNumber,
+  captionId,
+}: IUnsavedCaption) => {
+  const userRef = db.collection("users").doc(phoneNumber);
+  const captionRef = userRef.collection("captions").doc(captionId);
+  const doc = await captionRef.get();
+  if (!doc.exists) {
+    throw new Error("Caption not found");
+  }
+  await captionRef.delete();
+};
